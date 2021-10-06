@@ -9,8 +9,8 @@ function UserCard() {
         <div className='m-3'>
             <div className='w-100 md:w-60 border border-primary rounded-lg'>
                 <div className='relative '>
-                    <img src='./Assets/Default-Bg.png' alt='cover pic' className='rounded-t-lg' />
-                    <Link><img src='./Assets/default-profilepic.jpg' alt='profile pic' className='absolute left-44 top-78 md:left-20 md:top-50 h-14 rounded-full h-35 w-29' /></Link>
+                    <img src='./Assets/LinkedIn-Bg.png' alt='cover pic' className='rounded-t-lg' />
+                    <Link><img src='./Assets/profilepic.jpg' alt='profile pic' className='absolute left-44 top-78 md:left-20 md:top-50 h-14 rounded-full h-35 w-29' /></Link>
                 </div>
                 <Link>
                 <div className='text-center mt-12 border-b border-primary pb-4'>
@@ -24,7 +24,7 @@ function UserCard() {
                 </div>
                 <div className='p-3 relative border-b border-primary hover:bg-primary'><Link>
                     <h3 className='text-xs text-sec text-opacity-60'>Access Exclusive tools & insights</h3>
-                    <img src='./Assets/linkedin_premium.png' className='absolute h-3.5 w-3.5 top-10 left-0'/>
+                    <img src='./Assets/premium_icon.png' className='absolute h-3.5 w-3.5 top-10 left-0'/>
                     <h3 className='text-xs font-semibold ml-5'>Try Premium for free</h3></Link>
                 </div>
                 <div className='relative p-3 hover:bg-primary'>
@@ -34,7 +34,6 @@ function UserCard() {
                 </div>
             </div>
         </div>
-
     )
 }
 

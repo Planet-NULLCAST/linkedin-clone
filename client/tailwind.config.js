@@ -20,7 +20,6 @@ module.exports = {
       },
       backgroundColor:{
         'primary' : '#e7e2dc'
-
       },
       spacing: {
         '100':'36rem'
