@@ -3,7 +3,7 @@ const Footer = () => {
     return (
         <div>
             <div>
-                <ul class='md:flex flex-row text-xs hidden'>
+                <ul class='flex flex-row text-xs'>
                     <li class="flex flex-row"><img src={linkedinfooter} class='w-12'></img><span class='ml-1 opacity-60'>© 2021</span></li>
                     <li><a href="###" class='ml-2 opacity-60'>User Agreement</a></li>
                     <li><a href="###" class='ml-2 opacity-60'>Privacy Policy</a></li>
