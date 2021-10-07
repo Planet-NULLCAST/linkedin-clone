@@ -18,7 +18,7 @@ const Signup = () => {
             <label class="text-black opacity-80">Email or phone number</label>
             <div class=" mb-4 p">
               <input
-                class="shadow appearance-none border w- rounded py-0.5  text-grey-darker border-black"
+                class="shadow appearance-none w-80 border w- rounded py-0.5  text-grey-darker border-black"
                 id="Email"
                 type="text"
                 placeholder=""
