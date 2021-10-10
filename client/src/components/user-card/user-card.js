@@ -15,14 +15,10 @@ function UserCard() {
     const [crop,setCrop] = useState({
         'aspect': 1/1
     })
-    const OpenModal = () => setModal(true);
-    const Addphoto = (e) => {
+    const addPhoto = (e) => {
         setUrl(URL.createObjectURL(e.target.files[0]));
         setCropModal(true);
         setModal(false)
-    }
-    const CloseModal = () => {
-        setPopup(true);
     }
 
     const getCroppedImg = () => {
@@ -47,6 +43,11 @@ function UserCard() {
 
           const base64Image = canvas.toDataURL("image/jpeg");
           setImageUrl(base64Image);
+          setTimeout(() => {
+            alert('Successfully Updated');
+          }, 100);
+          setCropModal(false);
+          setModal(false); 
         }
       
     return (
@@ -59,7 +60,7 @@ function UserCard() {
 
                 <div className='text-center mt-12 border-b border-primary pb-4'>
                     <h1 className='cursor-pointer text-base hover:underline'>Welcome, {username}</h1>
-                    <span onClick={OpenModal}><span className='cursor-pointer text-primary text-xs hover:underline'>Add a photo</span></span>
+                    <span onClick={() => setModal(true)}><span className='cursor-pointer text-primary text-xs hover:underline'>Add a photo</span></span>
                 </div>
             
                 <div className="mt-3 md:pb-3 border-b border-primary">
@@ -77,7 +78,7 @@ function UserCard() {
                 <h3 className='text-xs font-semibold ml-6'>My items</h3>
                 </div>
             </div>
-            { modal ? <div className='shadow-lg w-744 m-6 rounded-lg border border-primary bg-white'>
+            { modal && <div className='shadow-lg w-744 m-6 rounded-lg border border-primary bg-white'>
                 <header className='flex justify-between py-4 px-6 border-b border-primary'>
                     <h1 className='text-xl font-normal'>Add Photo</h1>
                     <h1 onClick={() => setModal(false)} className='cursor-pointer rounded-full hover:bg-gray-300 p-2 text-base'>X</h1>
@@ -91,25 +92,25 @@ function UserCard() {
                 <footer className='relative py-4 px-6 flex justify-between'>
                     <button className='text-blueclr text-base hover:bg-blue-100 py-1.5 px-2'>Frames</button>
                     <button className='absolute right-40 hover:bg-blue-100 text-blueclr py-1.5 px-4 font-semibold border border-blue-600 text-base rounded-b-2xl rounded-t-2xl'>Use camera</button>
-                    <input type='file' id='photo' className='hidden' onChange={Addphoto} />
+                    <input type='file' id='photo' className='hidden' onChange={addPhoto} />
                     <label for='photo' className='hover:bg-blue-900 cursor-pointer bg-blue-600 py-1.5 px-4 rounded-b-2xl rounded-t-2xl text-white font-semibold'>Upload photo</label>           
                 </footer>
-            </div>: null }
-            {cropmodal ? <div className='shadow-lg border border-primary m-6 w-680 rounded-lg h-auto'>
+            </div>}
+            {cropmodal && <div className='h-auto shadow-lg border border-primary m-6 w-680 rounded-lg'>
                 <header className='flex justify-between py-4 px-6'>
                     <h1 className='text-xl font-normal'>Edit photo</h1>
-                    <h1 onClick={CloseModal} className='cursor-pointer rounded-full hover:bg-gray-300 p-2 text-base'>X</h1>
+                    <h1 onClick={() => setPopup(true)} className='cursor-pointer rounded-full hover:bg-gray-300 p-2 text-base'>X</h1>
                 </header>
                 <div className='flex items-center bg-black justify-center py-4 h-auto'>
-                    <ReactCrop src={url} onImageLoaded={setImage} crop={crop} onChange={(newCrop) => setCrop(newCrop)} />
+                    <ReactCrop className='h-400'  src={url} onImageLoaded={setImage} crop={crop} onChange={(newCrop) => setCrop(newCrop)} />
                 </div>
                 <footer className='flex justify-end py-4 px-6'>
-                    <input type='file' id='changephoto' className='hidden' onChange={Addphoto}/>
+                    <input type='file' id='changephoto' className='hidden' onChange={addPhoto}/>
                     <label for='changephoto' className='mr-4 hover:border-8 cursor-pointer hover:bg-gray-100 py-1.5 px-4 rounded-b-2xl rounded-t-2xl text-gray-500 border border-gray font-semibold'>Change photo</label>
                     <button type='button' className='hover:bg-blue-900 bg-blue-600 py-1.5 px-4 rounded-b-2xl rounded-t-2xl text-white font-semibold' onClick={getCroppedImg}>Save photo</button>
                 </footer>
-            </div> : null }
-            {popup ? <div className='absolute w-80 bg-white top-1/4 right-1/2 rounded-lg'>
+            </div>}
+            {popup && <div className='absolute w-80 bg-white top-1/4 right-1/2 rounded-lg'>
                 <header className='flex justify-between px-4 pt-4 border-b border-primary'>
                     <h1>Discard Changes</h1>
                     <h1 className='cursor-pointer rounded-full hover:bg-gray-300 pb-2 pt-0.5 text-base' onClick={()=> setPopup(false)}>X</h1>
@@ -121,9 +122,9 @@ function UserCard() {
                     <button type='button' onClick={()=> setPopup(false)} className='mr-4 hover:border-4 hover:bg-blue-100 py-1.5 px-4 rounded-b-2xl rounded-t-2xl text-blue-700 border-2 border-blue-700 font-semibold'>Cancel</button>
                     <button type='button' onClick={()=>{setPopup(false); setCropModal(false); setModal(true)}} className='hover:bg-blue-900 bg-blue-600 py-1.5 px-4 rounded-b-2xl rounded-t-2xl text-white font-semibold'>Discard</button>
                 </footer>
-            </div> : null}
+            </div>}
         </div>
     )
 }
 
-export default UserCard
+export default UserCard;
