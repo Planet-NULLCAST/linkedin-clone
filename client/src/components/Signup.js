@@ -8,12 +8,12 @@ const Signup = () => {
         <div class="w-32">
           <img src={linkedinlogo} alt="linkedin logo" />
         </div>
-        <div>
+        <div class='flex justify-between items-center'>
           <h1 class="bold text-black flex  pt-6 px-4 text-3xl">
             Make the most of your professional life
           </h1>
         </div>
-        <div class='flex-1 flex flex-col justify-center'>
+        <div class="flex-1 flex flex-col justify-center">
           <div class=" p-4 flex flex-col mt-2 bg-white rounded-lg">
             <label class="text-black opacity-80">Email or phone number</label>
             <div class=" mb-4 p">
