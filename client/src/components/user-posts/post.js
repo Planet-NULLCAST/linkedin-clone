@@ -7,8 +7,8 @@ import React from "react";
 import { BsCardImage } from "react-icons/bs";
 const Post = () => {
   const addHashtag = () => {
-    var text = document.getElementById("text");
-    text.value += "#";
+    const data = inputfield+hashtag;
+    setInputfield(data);
   };
   const imageChoosefuntion = () => {
     setimageChoose(true);
@@ -26,6 +26,7 @@ const Post = () => {
     setUrl("");
     setselectImagetoshare(true);
     setselectImage(true);
+    setInputfield('');
   };
   const addPhoto = (e) => {
     setUrl(URL.createObjectURL(e.target.files[0]));
@@ -36,7 +37,12 @@ const Post = () => {
     setcreatePost(true);
     setselectImage(false);
   };
+  const inputFieldfunction = (e) =>{
+      setInputfield(e.target.value)
+  }
   const [url, setUrl] = useState("");
+  const [inputfield, setInputfield] = useState('');
+  const [hashtag, setHashtag] = useState(' #');
   const [createPost, setcreatePost] = useState(false);
   const [imageChoose, setimageChoose] = useState(false);
   const [selectImagetoshare, setselectImagetoshare] = useState(false);
@@ -138,6 +144,8 @@ const Post = () => {
                     type="text"
                     placeholder="What do u want to talk  about?"
                     id="text"
+                    value={inputfield}
+                    onChange ={inputFieldfunction}
                   />
                 </div>
               ) : null}
@@ -173,6 +181,8 @@ const Post = () => {
                     type="text"
                     placeholder="What do u want to talk  about?"
                     id="text"
+                    value={inputfield}
+                    onChange ={inputFieldfunction}
                   />
                   <div>
                     <img src={url} />
