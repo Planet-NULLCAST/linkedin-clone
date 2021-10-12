@@ -27,7 +27,7 @@ const Post = () => {
     setselectImagetoshare(true);
     setselectImage(true);
   };
-  const Addphoto = (e) => {
+  const addPhoto = (e) => {
     setUrl(URL.createObjectURL(e.target.files[0]));
     setselectImagetoshare(true);
     setselectImage(true);
@@ -258,7 +258,7 @@ const Post = () => {
                 <input
                   type="file"
                   id="img"
-                  onChange={(e) => Addphoto(e)}
+                  onChange={(e) => addPhoto(e)}
                   className=" justify-center items-center hidden text-xs"
                 />
                 <label
