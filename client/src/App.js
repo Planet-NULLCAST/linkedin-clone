@@ -3,6 +3,7 @@ import Signin from './components/Signin';
 import Signup from './components/Signup';
 import UserCard from './components/user-card/user-card';
 import Post  from './components/user-posts/post';
+import Navbar  from './components/navbar';
 function App() {
   return (
     <Router className="App">
@@ -10,6 +11,7 @@ function App() {
       <Route path='/Signup' exact component= {Signup} />
       <Route path='/Signin' exact component= {Signin} />
       <Route path='/post' exact component= {Post} />
+      <Route path='/navbar' exact component= {Navbar} />
     </Router> 
   );
 }
