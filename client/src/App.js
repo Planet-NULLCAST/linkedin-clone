@@ -3,6 +3,7 @@ import postDetails from './components/post-details/postDetails';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
 import UserCard from './components/user-card/user-card';
+import Post  from './components/user-posts/post';
 function App() {
   return (
     <Router className="App">
