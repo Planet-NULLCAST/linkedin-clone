@@ -2,36 +2,26 @@ import { useState } from "react";
 import React from "react";
 import { faLessThanEqual } from "@fortawesome/free-solid-svg-icons";
 const Navbar = () => {
-  const naveSearchbaropen = () => {
+  const naveSearchBarOpen = () => {
     setnavSearchbar(true);
   };
-  const naveSearchbarclose = () => {
+  const naveSearchbarClose = () => {
     setnavSearchbar(false);
   };
-  const profileiconNavbarfuntion = () => {
+  const profileiconNavBarFuntion = () => {
     setprofileiconNavbar(!profileiconNavbar);
   };
-  // const responsiveNavbarprofilepopupfuntion =() => {
-  //   setresponsiveNavbarprofilepopup(true)
-  //   setthreeDotmenu(true)
-
-  // }
-  const threeDotmenufuntion = () => {
+  const threeDotMenuFuntion = () => {
     setthreeDotmenu(!threeDotmenu);
     setresponsiveNavbarprofilepopup(false);
   };
-  const workPopupfuntion = () => {
+  const workPopupFuntion = () => {
     setworkPopup(!workPopup);
   }
-  const threeDotmenuprofilefuntion = () => {
+  const threeDotMenuProfileFuntion = () => {
     setthreeDotmenu(false);
     setresponsiveNavbarprofilepopup(true);
   };
-  const threeDotmenuonblur = () => {
-    setthreeDotmenu(false);
-    setresponsiveNavbarprofilepopup(false);
-  };
-
   const [navSearchbar, setnavSearchbar] = useState(false);
   const [profileiconNavbar, setprofileiconNavbar] = useState(false);
   const [responsiveNavbarprofilepopup, setresponsiveNavbarprofilepopup] = useState(false);
@@ -48,7 +38,7 @@ const Navbar = () => {
               </div>
               <div className="lg:hidden flex">
                 <button
-                  onClick={naveSearchbaropen}
+                  onClick={naveSearchBarOpen}
                   className="w-12  lg:w-20 opacity-60 border-b-4 border-transparent text-xsopacity-60	focus:opacity-100	 focus:border-black flex flex-col justify-center items-center h-14"
                 >
                   <i class="fas fa-search lg:text-base text-2xl"></i>
@@ -101,7 +91,7 @@ const Navbar = () => {
               <li className="lg:hidden flex">
                 <div>
                   <button
-                    onClick={threeDotmenufuntion}
+                    onClick={threeDotMenuFuntion}
                     className="w-12 lg:w-20 border-b-4 border-transparent text-xs opacity-60 hover:opacity-100	focus:opacity-100	 focus:border-black flex flex-col justify-center items-center h-14"
                   >
                     <i class="fas fa-ellipsis-h lg:text-base text-2xl"></i>
@@ -110,8 +100,8 @@ const Navbar = () => {
                 {/* 3 dotted menu................................................................................................................ */}
                 <div>
                   {threeDotmenu && !responsiveNavbarprofilepopup ? (
-                    <div className="absolute shadow-lg   bg-white w-48 h-14 mt-16 rounded-full -ml-48 flex justify-around items-center">
-                      <button onClick={threeDotmenuprofilefuntion}>
+                    <div className="absolute shadow-lg z-10   bg-white w-48 h-14 mt-16 rounded-full -ml-48 flex justify-around items-center">
+                      <button onClick={threeDotMenuProfileFuntion}>
                         {" "}
                         <img
                           className="w-6 h-6 rounded-full"
@@ -122,13 +112,13 @@ const Navbar = () => {
                       <button>
                         <i class="fas fa-th text-base opacity-60"></i>
                       </button>
-                      <button onClick={ workPopupfuntion} className="w-12 lg:w-20 flex flex-col text-yellow-500 h-14 text-xs justify-center items-center">
+                      <button onClick={ workPopupFuntion} className="w-12 lg:w-20 flex flex-col text-yellow-500 h-14 text-xs justify-center items-center">
                         Try Premium for free
                       </button>
                     </div>
                   ) : null}
                   {!threeDotmenu && responsiveNavbarprofilepopup ? (
-                    <div className="h-369.400   p-2 w-264 shadow-lg  m-6 rounded-lg border border-primary bg-white absolute -ml-64 mt-16">
+                    <div className="h-369.400    p-2 w-264 shadow-lg  m-6 rounded-lg border border-primary bg-white z-50 absolute -ml-64 mt-16">
                       <div className="justify-between items-center">
                         <div className="flex flex-col justify-center ">
                           <div className="flex items-center">
@@ -174,7 +164,7 @@ const Navbar = () => {
                         </div>
                         <hr class=" w-full" />
                       </div>
-                      <a href="###" className="my my- ">
+                      <a href="###">
                         Sign out
                       </a>
                     </div>
@@ -184,7 +174,7 @@ const Navbar = () => {
               <li className=" justify-center items-center hidden lg:flex">
                 <div>
                   <button
-                    onClick={profileiconNavbarfuntion}
+                    onClick={profileiconNavBarFuntion}
                     className="w-12 lg:w-20 flex flex-col h-14  justify-center items-center"
                   >
                     <div>
@@ -245,13 +235,13 @@ const Navbar = () => {
                         </div>
                         <hr class=" w-full" />
                       </div>
-                      <a href="###" className="my my- ">
+                      <a href="###">
                         Sign out
                       </a>
                     </div>
                   ) : null}
                 </div>
-                <button onClick={ workPopupfuntion} className="w-12 lg:w-20 flex text-xs opacity-60 flex-col h-14 border-l justify-center  items-center">
+                <button onClick={ workPopupFuntion} className="w-12 lg:w-20 flex text-xs opacity-60 flex-col h-14 border-l justify-center  items-center">
                   <i class="fas fa-th text-base"></i>
                   <span className="text-xs flex ">
                     work<i class="fas fa-sort-down text-xs  "></i>
@@ -265,12 +255,12 @@ const Navbar = () => {
           </div>
           {workPopup ? (<div className=" float-right min-h-screen w-380  shadow-lg justify-start  items-center flex flex-col ">
             <div className='pr-6  w-full py-2.5 flex justify-end'>
-            <button onClick={ workPopupfuntion} className='opacity-70' >
+            <button onClick={ workPopupFuntion} className='opacity-70' >
               <i class="fas text-2xl fa-times "></i>
             </button>
             </div>
             <div>
-              <div className='border flex py-2.5'>
+              <div className="border flex py-2.5">
                 <label className='pl-5 opacity-80'>visit more linkedin products</label>
               </div>
               <div className='border py-2.5'>
@@ -337,7 +327,7 @@ const Navbar = () => {
             </div>
             <div className=" w-full">
               <div
-                onBlur={naveSearchbarclose}
+                onBlur={naveSearchbarClose}
                 className="flex  pr-12 bg-gray-100 w-full flex-row items-center h-9 rounded active:w-425 "
               >
                 <button>
