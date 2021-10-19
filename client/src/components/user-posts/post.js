@@ -59,7 +59,6 @@ const Post = () => {
                 className="h-12 rounded-full w-12 mr-4"
               ></img>
               <div className="w-full py-2.5 border px-4 my-1 h-12 text-left rounded-full hover:bg-gray-100 flex justify-center items-center">
-                {" "}
                 <button onClick={() => createPostfuntion()}>
                   Start a post
                 </button>
