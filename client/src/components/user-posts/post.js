@@ -50,8 +50,8 @@ const Post = () => {
   return (
     <div>
       {!createPost && !imageChoose ? (
-        <div className='md:px-5 px-0 '>
-          <div className="p-4 w-99 h-29 border rounded-xl">
+        <div className='md:mx-5 px-0 '>
+          <div className="p-4 w-99 h-29 border bg-white rounded-xl">
             <div className="flex">
               <img
                 src="./Assets/profilepic.jpg"

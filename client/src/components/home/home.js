@@ -2,24 +2,28 @@ import Navbar from "../navbar";
 import UserCard from "../user-card/user-card";
 import Post from "../user-posts/post";
 import PostDetails from "../post-details/postDetails";
+import { RiArrowDropDownLine } from 'react-icons/ri';
+import { useState } from "react";
 
-const home = () => {
+const Home = () => {
+  const [showUserCard, setShowUserCard] = useState(false);
+  const [showMore, setShowMore] = useState(true)
   return (
     <div>
       <div className="md:flex hidden flex-col">
         <div className="w-full ">
           <Navbar></Navbar>
-          <div className="flex justify-center pt-12 ">
+          <div className='bg-mainbg'><div className="flex justify-center pt-12 ">
           <div>
             <UserCard></UserCard>
           </div>
           <div className='justify-center flex  flex-col items-center'>
-            <div className='w-full  bg-white'>
+            <div className='w-full'>
               <Post></Post>
             </div>
             <button className='flex flex-row pt-4  justify-between items-center w-full px-4 '>
                 <hr className=" w-full" />
-                <span className='flex text-xs w-32'>Sort by:<select>
+                <span className='flex text-xs w-32'>Sort by:<select className='bg-mainbg'>
                     <option>Top</option>
                     <option>Recent</option>
                     </select></span>
@@ -27,7 +31,7 @@ const home = () => {
             <div className='w-full'>
               <PostDetails></PostDetails>
             </div>
-          </div>
+          </div></div>
         </div>
         </div>
       </div>
@@ -36,15 +40,21 @@ const home = () => {
         <div className="w-full">
           <Navbar></Navbar>
         </div>
-        <div className='w-full'>
-            <UserCard></UserCard>
+        <div className='bg-mainbg xs:px-16'>
+          <div className='w-full mt-2'>
+            <UserCard showUserCard={showUserCard}></UserCard>
           </div>
-          <div className='w-full z-0'>
+          {showMore && <span className='flex justify-center mt-3 text-sec opacity-60 font-semibold' onClick={()=>{setShowUserCard(true); setShowMore(false)}}>
+            <h3 className='text-sm'>Show more</h3>
+            <RiArrowDropDownLine/>
+          </span>}
+          <div className='w-full z-0 mt-3'>
               <Post></Post>
           </div>
+        </div>
       </div>
     </div>
   );
 };
 
-export default home;
+export default Home;

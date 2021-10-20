@@ -94,7 +94,7 @@ function PostDetails() {
     }
     return (
         <div className='flex justify-center  px-5'>
-            <div className='mt-2 sm:w-540 h-auto border border-primary rounded-lg'>
+            <div className='mt-2 sm:w-540 h-auto border border-primary rounded-lg bg-white'>
                 <header className='flex justify-between mx-4 pt-2 pb-1 border-b border-primary relative'>
                     <div className='text-xs font-normal'>Connections<span className='text-sec opacity-60'> likes this </span></div>
                     <BsThreeDots onClick={() => setDropdown(!dropdown)} className='cursor-pointer rounded-full h-6 w-6 hover:bg-gray-400' />

@@ -29,7 +29,8 @@ module.exports = {
       },
       backgroundColor:{
         'primary' : '#e7e2dc',
-        'commentBg':'#F2F2F2'
+        'commentBg':'#F2F2F2',
+        'mainbg' : '#f3f2ef'
       },
       spacing: {
         '81':'21rem',
