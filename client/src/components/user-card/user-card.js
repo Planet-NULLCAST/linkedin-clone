@@ -59,7 +59,7 @@ function UserCard() {
       
     return (
         <div id = 'div' className='flex'>
-            <div className='w-100 h-350 md:w-60 border border-primary rounded-lg'>
+            <div className='w-auto  md:w-60 border border-primary rounded-lg'>
                 <div className='relative '>
                     <img src='./Assets/LinkedIn-Bg.png' alt='cover pic' className='rounded-t-lg' />
                     <img src={profilePicUrl} alt='profile pic' className='cursor-pointer absolute left-44 top-78 md:left-20 md:top-50 h-14 rounded-full  w-29' />

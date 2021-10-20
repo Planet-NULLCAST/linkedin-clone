@@ -93,7 +93,7 @@ function PostDetails() {
         setPostComment(true);
     }
     return (
-        <div className='flex justify-center px-5'>
+        <div className='flex justify-center  px-5'>
             <div className='mt-2 sm:w-540 h-auto border border-primary rounded-lg'>
                 <header className='flex justify-between mx-4 pt-2 pb-1 border-b border-primary relative'>
                     <div className='text-xs font-normal'>Connections<span className='text-sec opacity-60'> likes this </span></div>
