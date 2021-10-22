@@ -128,7 +128,7 @@ function PostDetails() {
                 <div className='mb-2'>
                     <p className='px-4'>{content}</p>
                     <article className='mt-2'>
-                        <img src={post} />
+                        <img src={post} alt="" />
                     </article>
                 </div>
                 <div className='flex justify-start'>
@@ -150,7 +150,7 @@ function PostDetails() {
                     <div className='px-2 py-1 flex hover:bg-primary rounded-sm sm:px-5 sm:py-2 cursor-pointer' onClick={()=>setMessagePopup(true)}><RiSendPlaneFill className='text-gray-700 h-8 w-8'/><span className='hidden xs:block font-semibold text-base leading-7 pl-2 text-sec opacity-60'>Send</span></div>
                 </div>
                 {commentBox && <div className='flex pt-1 px-4 pb-2 w-full'>
-                    <img src='./Assets/profilepic.jpg' className='mr-1 rounded-full h-10 w-10'/>
+                    <img src='./Assets/profilepic.jpg' alt="" className='mr-1 rounded-full h-10 w-10'/>
                     <form className='relative w-full' onSubmit={handleFormSubmit} >
                         <div className='pl-3 border border-primary rounded-full w-full'>
                             <textarea name='userComment' value={comment} onChange={handleCommentChange} placeholder='Add a comment...' className='w-full pt-1 outline-none h-8 overflow-hidden'/>
@@ -164,13 +164,13 @@ function PostDetails() {
                 <div className='my-3'>
                 {commentList.map((comment) =><section className='my-3'>
                     <div className='flex px-4'>
-                        <img src={profilePicUrl} className='mr-1 rounded-full h-10 w-10'/>
+                        <img src={profilePicUrl} alt="" className='mr-1 rounded-full h-10 w-10'/>
                         <div className='bg-commentBg w-full px-3 rounded-lg'>
                             <h2 className='text-xs text-sec opacity-90 font-semibold'>{userName}</h2>
                             <p className='text-xs text-sec opacity-60 font-normal'>Description</p>
                             <div className='my-1 w-full break-words h-auto'>
                                 <p>{comment.text}</p>
-                                <img src={comment.imageUrl} />
+                                <img src={comment.imageUrl} alt=""/>
                             </div>
                         </div>   
                     </div>

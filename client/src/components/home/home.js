@@ -6,7 +6,7 @@ import { RiArrowDropDownLine } from 'react-icons/ri';
 import { useState } from "react";
 
 const Home = () => {
-  const [showUserCard, setShowUserCard] = useState(false);
+  const [showUserCard, setShowUserCard] = useState('hidden');
   const [showMore, setShowMore] = useState(true)
   return (
     <div>
@@ -44,7 +44,7 @@ const Home = () => {
           <div className='w-full mt-2'>
             <UserCard showUserCard={showUserCard}></UserCard>
           </div>
-          {showMore && <span className='flex justify-center mt-3 text-sec opacity-60 font-semibold' onClick={()=>{setShowUserCard(true); setShowMore(false)}}>
+          {showMore && <span className='flex justify-center mt-3 text-sec opacity-60 font-semibold' onClick={()=>{setShowUserCard('block'); setShowMore(false)}}>
             <h3 className='text-sm'>Show more</h3>
             <RiArrowDropDownLine/>
           </span>}

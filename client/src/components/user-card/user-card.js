@@ -6,13 +6,14 @@ import "react-image-crop/dist/ReactCrop.css";
 import { useSelector, useDispatch } from "react-redux";
 import { changeUrl } from "../../Redux/profilePic/profilePic";
 
-function UserCard({showUserCard}) {
+function UserCard({ showUserCard }) {
   const userName = useSelector((state) => state.userName.value);
   const [modal, setModal] = useState(false);
   const [cropmodal, setCropModal] = useState(false);
   const [url, setUrl] = useState("");
   const [image, setImage] = useState("");
   const [popup, setPopup] = useState(false);
+  const show = "block";
   const profilePicUrl = useSelector((state) => state.profilePicUrl.value);
   const dispatch = useDispatch();
   const [crop, setCrop] = useState({
@@ -83,7 +84,8 @@ function UserCard({showUserCard}) {
             </span>
           </span>
         </div>
-          {showUserCard && <div> <div className="mt-3 md:pb-3 border-b border-primary">
+        <div className={`${showUserCard} md:${show}`}>
+          <div className="mt-3 md:pb-3 border-b border-primary">
             <h3 className="cursor-pointer pl-3.5 text-xs text-sec text-opacity-60 font-semibold leading-4 hover:bg-primary">
               Who viewed your profile
             </h3>
@@ -92,21 +94,21 @@ function UserCard({showUserCard}) {
             </h3>
           </div>
           <div className="p-3 cursor-pointer relative border-b border-primary hover:bg-primary">
-              <h3 className="text-xs text-sec text-opacity-60">
-                Access Exclusive tools & insights
-              </h3>
-              <img
-                src="./Assets/premium_icon.png"
-                className="absolute h-3.5 w-3.5 top-10 left-0"
-              />
-              <h3 className="text-xs font-semibold ml-5">
-                Try Premium for free
-              </h3>
+            <h3 className="text-xs text-sec text-opacity-60">
+              Access Exclusive tools & insights
+            </h3>
+            <img
+              src="./Assets/premium_icon.png"
+              className="absolute h-3.5 w-3.5 top-10 left-0"
+              alt=""
+            />
+            <h3 className="text-xs font-semibold ml-5">Try Premium for free</h3>
           </div>
           <div className="relative p-3 hover:bg-primary">
             <MdBookmark className="absolute cursor-pointer left-0" />
             <h3 className="text-xs font-semibold ml-6">My items</h3>
-          </div></div>}
+          </div>
+        </div>
       </div>
       {modal && (
         <div className="absolute z-20 -top-0 -left-0 flex justify-center items-center w-full h-full bg-gray-900 bg-opacity-10">
@@ -130,6 +132,7 @@ function UserCard({showUserCard}) {
               <img
                 src="./Assets/linkedin-photoes.JPG"
                 className="mt-6 w-496"
+                alt=""
               ></img>
               <h3 className="text-sec text-opacity-60">
                 Take or upload a photo. Then crop, filter and adjust it to

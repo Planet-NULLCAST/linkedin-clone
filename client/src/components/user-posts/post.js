@@ -184,7 +184,7 @@ const Post = () => {
                     onChange ={inputFieldfunction}
                   />
                   <div>
-                    <img src={url} />
+                    <img src={url} alt="" />
                   </div>
                 </div>
               ) : null}
@@ -291,7 +291,7 @@ const Post = () => {
           <div className='z-30 rounded bg-white'>
             {url ? (
               <div className="w-99 px-6 h-60 overflow-scroll border-none z-20">
-                <img className="w-99" src={url} />
+                <img className="w-99" src={url} alt=""/>
               </div>
             ) : null}
             <hr />
