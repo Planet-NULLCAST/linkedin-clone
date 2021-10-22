@@ -50,8 +50,8 @@ const Post = () => {
   return (
     <div>
       {!createPost && !imageChoose ? (
-        <div>
-          <div className="p-4 w-99 h-29 border rounded-xl">
+        <div className='md:mx-5 px-0 '>
+          <div className="p-4 w-99 h-29 border bg-white rounded-xl">
             <div className="flex">
               <img
                 src="./Assets/profilepic.jpg"
@@ -59,7 +59,6 @@ const Post = () => {
                 className="h-12 rounded-full w-12 mr-4"
               ></img>
               <div className="w-full py-2.5 border px-4 my-1 h-12 text-left rounded-full hover:bg-gray-100 flex justify-center items-center">
-                {" "}
                 <button onClick={() => createPostfuntion()}>
                   Start a post
                 </button>
@@ -97,8 +96,8 @@ const Post = () => {
           </div>
         </div>
       ) : null}
-      {createPost ? (
-        <div>
+      {createPost ? (<div className="absolute -top-0 -left-0  flex justify-center  w-full h-screen bg-black bg-opacity-40">
+      <div className=' w-auto md:w-540 bg-white z-30 h-425 rounded shadow mt-8 '>
           <div className="flex justify-between items-center p-4 w-99 h-27">
             <p className="text-xl">Create a post</p>
             <button onClick={() => closeCreatepost()} className="w-4">
@@ -150,7 +149,7 @@ const Post = () => {
                 </div>
               ) : null}
               {url ? (
-                <div className="w-99 h-60 overflow-scroll border-none p-4">
+                <div className="w-99 h-60 overflow-scroll border-none p-4 z-30">
                   <div className="flex">
                     <img
                       src="./Assets/profilepic.jpg"
@@ -185,7 +184,7 @@ const Post = () => {
                     onChange ={inputFieldfunction}
                   />
                   <div>
-                    <img src={url} />
+                    <img src={url} alt="" />
                   </div>
                 </div>
               ) : null}
@@ -198,7 +197,7 @@ const Post = () => {
               </button>
             </div>
           </div>
-          <div className="items-center justify-start pl-4 flex opacity-70">
+          <div className="items-center justify-start pl-4 py-1 flex bg-white rounded shadow">
             <div className="items-center justify-between flex h-10 w-66">
               <div className="hover:bg-gray-300  rounded-full w-10 h-10 flex items-center justify-center">
                 <button
@@ -206,120 +205,121 @@ const Post = () => {
                   onClick={() => imageChoosefuntion()}
                   className="flex justify-center items-center  text-xs"
                 >
-                  <BsCardImage className="w-6 h-10" />
+                  <BsCardImage className="w-6 h-10 opacity-50" />
                 </button>
               </div>
               <div className="hover:bg-gray-300  rounded-full w-10 h-10 flex items-center justify-center">
                 <button className="flex justify-center items-center  text-xs">
-                  <i className="fab fa-youtube  text-xl"></i>
+                  <i className="fab fa-youtube  text-xl opacity-50 "></i>
                 </button>
               </div>
               <div className="hover:bg-gray-300  rounded-full w-10 h-10 flex items-center justify-center">
                 <button className="flex justify-center items-center  text-xs">
-                  <i className="fas fa-file-alt text-xl"></i>
+                  <i className="fas fa-file-alt text-xl opacity-50"></i>
                 </button>
               </div>
               <div className="hover:bg-gray-300  rounded-full w-10 h-10 flex items-center justify-center">
                 <button className="flex justify-center items-center  text-xs">
-                  <i className="fas fa-briefcase text-xl"></i>
+                  <i className="fas fa-briefcase text-xl opacity-50"></i>
                 </button>
               </div>
               <div className="hover:bg-gray-300  rounded-full w-10 h-10 flex items-center justify-center">
                 <button className="flex justify-center items-center  text-xs">
-                  <i className="fas fa-certificate text-xl"></i>
+                  <i className="fas fa-certificate text-xl opacity-50"></i>
                 </button>
               </div>
               <div className="hover:bg-gray-300  rounded-full w-10 h-10 flex items-center justify-center">
                 <button className="flex justify-center items-center  text-xs">
-                  <i className="fas fa-poll text-xl"></i>
+                  <i className="fas fa-poll text-xl opacity-50"></i>
                 </button>
               </div>
               <div className="hover:bg-gray-300  rounded-full w-10 h-10 flex items-center justify-center">
                 <button className="flex justify-center items-center  text-xs">
-                  <i className="fas fa-ellipsis-h text-xl"></i>
+                  <i className="fas fa-ellipsis-h text-xl opacity-50"></i>
                 </button>
               </div>
             </div>
-            <div className="flex items-center justify-center border-l-2">
+            <div className="flex items-center px-7 w-full justify-between border-l-2">
               <div className="hover:bg-gray-300  w-17 h-5 rounded-full flex items-center justify-center mr-13">
                 <button className="flex justify-center items-center  text-xs">
-                  <i className="far fa-comment-dots  text-xl"></i>Anyone
+                  <i className="far fa-comment-dots  text-xl opacity-50"></i>Anyone
                 </button>
               </div>
-              <div className="bg-gray-300 w-16 h-8 flex justify-center rounded-full items-center">
+              <div className="bg-gray-300  opacity-50 w-16 h-8 flex justify-center rounded-full items-center">
                 <button>post</button>
               </div>
             </div>
           </div>
         </div>
-      ) : imageChoose ? (
-        <div className="w-98 max-h-2 py-4">
-          <div className="flex justify-between items-center px-6">
-            <label className="h-7">Edit your photo</label>
-            <button onClick={closeCreatepost}>
-              <i className="fas fa-times"></i>
-            </button>
+      </div>
+       
+      ) : imageChoose ? (<div className="absolute inset-0 -top-0 -left-0 flex justify-center  w-full h-screen bg-black bg-opacity-40"> <div className='z-30 shadow rounded bg-white mt-8 h-20'><div className="w-98 max-h-2   py-4 ">
+      <div className="flex justify-between items-center  px-6">
+        <label className="h-7">Edit your photo</label>
+        <button onClick={closeCreatepost}>
+          <i className="fas fa-times"></i>
+        </button>
+      </div>
+      <hr className="h-px" />
+      <div className="h-14">
+        {!selectImagetoshare ? (
+          <div className='bg-white z-30 rounded shadow'>
+            <input
+              type="file"
+              id="img"
+              onChange={(e) => addPhoto(e)}
+              className=" justify-center items-center hidden text-xs"
+            />
+            <label
+              className="text-blue-500 h-24 flex justify-center items-center"
+              for="img"
+            >
+              Select images to share
+            </label>
+            <hr className="h-px" />
+            <div className="flex justify-end py-2 px-4">
+              <button
+                onClick={createPostfuntion}
+                className=" rounded-full py-px px-2 border border-blue-400 text-blue-400 "
+              >
+                Back
+              </button>
+            </div>
           </div>
-          <hr className="h-px" />
-          <div className="h-14">
-            {!selectImagetoshare ? (
-              <div>
-                {" "}
-                <input
-                  type="file"
-                  id="img"
-                  onChange={(e) => addPhoto(e)}
-                  className=" justify-center items-center hidden text-xs"
-                />
-                <label
-                  className="text-blue-500 h-24 flex justify-center items-center"
-                  for="img"
-                >
-                  Select images to share
-                </label>
-                <hr className="h-px" />
-                <div className="flex justify-end py-2 px-4">
-                  <button
-                    onClick={createPostfuntion}
-                    className=" rounded-full py-px px-2 border border-blue-400 text-blue-400 "
-                  >
-                    Back
-                  </button>
-                </div>
+        ) : null}
+        {selectImage ? (
+          <div className='z-30 rounded bg-white'>
+            {url ? (
+              <div className="w-99 px-6 h-60 overflow-scroll border-none z-20">
+                <img className="w-99" src={url} alt=""/>
               </div>
             ) : null}
-            {selectImage ? (
-              <div>
-                {url ? (
-                  <div className="w-99 px-6 h-60 overflow-scroll border-none">
-                    <img className="w-99" src={url} />
-                  </div>
-                ) : null}
-                <hr />
-                <div className="h-11 w-98 flex justify-start">
-                  <button className="w-20  px-3 py-5 flex text-center items-center justify-center  hover:bg-gray-200">
-                    Edit
-                  </button>
-                  <button className="w-20 px-3 py-5  flex text-center items-center justify-center  hover:bg-gray-200">
-                    Tag
-                  </button>
-                  <button className="w-20  px-3 py-5  flex text-center items-center justify-center  hover:bg-gray-200">
-                    Alt.Text
-                  </button>
-                </div>
-                <hr className="h-px w-px" />
-                <div className="py-3 px-6 flex justify-end items-center">
-                  <button
-                    onClick={addphotoTopost}
-                    className="w-16 bg-blue-500 rounded-full text-white"
-                  >
-                    Done
-                  </button>
-                </div>
-              </div>
-            ) : null}
+            <hr />
+            <div className="h-11 w-98 flex justify-start">
+              <button className="w-20  px-3 py-5 flex text-center items-center justify-center  hover:bg-gray-200">
+                Edit
+              </button>
+              <button className="w-20 px-3 py-5  flex text-center items-center justify-center  hover:bg-gray-200">
+                Tag
+              </button>
+              <button className="w-20  px-3 py-5  flex text-center items-center justify-center  hover:bg-gray-200">
+                Alt.Text
+              </button>
+            </div>
+            <hr className="h-px w-px" />
+            <div className="py-3 px-6 flex justify-end items-center">
+              <button
+                onClick={addphotoTopost}
+                className="w-16 bg-blue-500 rounded-full text-white"
+              >
+                Done
+              </button>
+            </div>
           </div>
-        </div>
+        ) : null}
+      </div>
+    </div></div></div>
+       
       ) : null}
     </div>
   );
