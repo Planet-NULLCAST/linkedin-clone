@@ -14,7 +14,7 @@ const profileSchema = new mongoose.Schema({
         required : true,
         lowercase : true
     },
-    bio : {
+    location : {
         type : String,
         required : true
     },

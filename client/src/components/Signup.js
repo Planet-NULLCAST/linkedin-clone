@@ -9,7 +9,7 @@ import { useState } from "react";
   let  signUpFuntion =async() =>{
 
     
-    let item={name ,email}
+    let item={password ,email}
     console.warn(item);
 
    let result=  await fetch("http://localhost:8000/signupapi",{
@@ -24,7 +24,7 @@ import { useState } from "react";
     result=  result.json()
     console.warn(result);
     }
-  const [name,SetName]=useState("")
+  const [password,SetName]=useState("")
   const [email,SetEmail]=useState("")
 
   return (
@@ -61,7 +61,7 @@ import { useState } from "react";
                 type="text"
                 placeholder=""
                 onChange={(e)=>SetName(e.target.value)}
-                value={name}
+                value={password}
               ></input>
               <div class="flex text-center justify-center text-xs my-4">
                 <span class="opacity-70">
