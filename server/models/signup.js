@@ -10,7 +10,21 @@ const signupSchema = new mongoose.Schema({
     password : {
         type : String,
         required : true
+    },
+    country  : {
+        type : String,
+        required : true
+    },
+    city : {
+        type : String
+    },
+    name : {
+        type : String
+    },
+    income :{
+        type : String
     }
+
 });
         
 const Signup = mongoose.model('signup', signupSchema)
