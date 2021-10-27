@@ -1,7 +1,32 @@
 import google from "../assets/google.svg";
 import linkedinlogo from "../assets/linkedinlogo.svg";
 import linkedinfooter from "../assets/linkedinfooter.svg";
-const Signup = () => {
+import { useState } from "react";
+ 
+
+ let Signup = () =>{
+  
+  let  signUpFuntion =async() =>{
+
+    
+    let item={password ,email}
+    console.warn(item);
+
+   let result=  await fetch("http://localhost:8000/signupapi",{
+      method:'POST',
+      body: JSON.stringify(item),
+      headers:{
+        "Content-Type":'application/json',
+        "Accept":'application/json'
+      }
+    })
+    .catch(e =>console.log(e))
+    result=  result.json()
+    console.warn(result);
+    }
+  const [password,SetName]=useState("")
+  const [email,SetEmail]=useState("")
+
   return (
     <div>
       <div class="pt-6 h-screen flex flex-col items-center  bg-white lg:bg-gray-100">
@@ -22,6 +47,8 @@ const Signup = () => {
                 id="Email"
                 type="text"
                 placeholder=""
+                value={email}
+                onChange={(e)=>SetEmail(e.target.value)}
               ></input>
             </div>
             <div class="my-2 flex-col flex">
@@ -33,6 +60,8 @@ const Signup = () => {
                 id="Email"
                 type="text"
                 placeholder=""
+                onChange={(e)=>SetName(e.target.value)}
+                value={password}
               ></input>
               <div class="flex text-center justify-center text-xs my-4">
                 <span class="opacity-70">
@@ -54,7 +83,7 @@ const Signup = () => {
                 </span>
               </div>
             </div>
-            <button class="bg-blue-500  text-white bold w-full h-12 rounded-full">
+            <button onClick={signUpFuntion } class="bg-blue-500  text-white bold w-full h-12 rounded-full">
               Agree & Join
             </button>
             <div class="flex text-center flex-col relative justify-center items-center my-5">
