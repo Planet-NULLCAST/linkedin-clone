@@ -1,31 +1,35 @@
 import React from "react";
 import { MdBookmark } from "react-icons/md";
-import { useState } from "react";
+import { useState,useContext} from "react";
 import ReactCrop from "react-image-crop";
 import "react-image-crop/dist/ReactCrop.css";
-import { useSelector, useDispatch } from "react-redux";
-import { changeUrl } from "../../Redux/profilePic/profilePic";
+import { SERVER_URL } from "../../config";
+import { LoginContext } from "../../contexts/LoginContext";
+
+
+
+
 
 function UserCard({ showUserCard }) {
-  const userName = useSelector((state) => state.userName.value);
   const [modal, setModal] = useState(false);
   const [cropmodal, setCropModal] = useState(false);
   const [url, setUrl] = useState("");
   const [image, setImage] = useState("");
   const [popup, setPopup] = useState(false);
   const show = "block";
-  const profilePicUrl = useSelector((state) => state.profilePicUrl.value);
-  const dispatch = useDispatch();
+  const [name,setName] = useState("")
+  const {userName,profilePicUrl,setProfilePicUrl,id} = useContext(LoginContext)
   const [crop, setCrop] = useState({
     aspect: 1 / 1,
   });
   const addPhoto = (e) => {
+    setName(e.target.files[0].name)
     setUrl(URL.createObjectURL(e.target.files[0]));
     setCropModal(true);
     setModal(false);
   };
 
-  const getCroppedImg = () => {
+  const getCroppedImg = async () => {
     const canvas = document.createElement("canvas");
     const scaleX = image.naturalWidth / image.width;
     const scaleY = image.naturalHeight / image.height;
@@ -45,18 +49,45 @@ function UserCard({ showUserCard }) {
       crop.height
     );
 
-    const base64Image = canvas.toDataURL("image/jpeg");
+    const base64Image =  canvas.toDataURL("image/jpeg");
 
-    (function () {
-      dispatch(changeUrl(base64Image));
-    })();
+    const result = await fetch(base64Image)
+    const blob = await result.blob();
+    const file = new File([blob], "profilePic",{ type: "image/jpeg" })
 
-    setTimeout(() => {
-      alert("Successfully Updated");
-    }, 100);
+    
+    let formData = new FormData();
+    formData.append("profilePic", file, name)
+
+   
+    // setTimeout(() => {
+    //   alert("Successfully Updated");
+    // }, 100);
+
+    
+    
     setCropModal(false);
     setModal(false);
+
+    const token = localStorage.getItem("token")
+    const response = await fetch(`${SERVER_URL}/users/upload/${id}`,{
+      method : "PATCH",
+      body : formData,
+      headers :{
+         'Authorization' : 'Bearer' + " " + token,
+      }
+    })
+    const json = await response.json()
+    if(json.path){
+      localStorage.setItem("profilePicPath",`${SERVER_URL}/${json.path}`)
+      setProfilePicUrl(`${SERVER_URL}/${json.path}`)
+    }
   };
+
+  const handlePhotoSubmit = async (e) => {
+    e.preventDefault()
+    
+  }
 
   return (
     <div className="w-auto md:w-60 ">
@@ -76,12 +107,12 @@ function UserCard({ showUserCard }) {
 
         <div className="text-center mt-12 border-b border-primary pb-4">
           <h1 className="cursor-pointer text-base hover:underline">
-            Welcome, {userName}
+            Welcome,{userName}
           </h1>
           <span onClick={() => setModal(true)}>
-            <span className="cursor-pointer text-primary text-xs hover:underline">
+            <a href="#" className="text-primary text-xs hover:underline">
               Add a photo
-            </span>
+            </a>
           </span>
         </div>
         <div className={`${showUserCard} md:${show}`}>
@@ -144,6 +175,7 @@ function UserCard({ showUserCard }) {
                 <button className="w-auto mr-1 right-40 hover:bg-blue-100 text-blueclr py-1.5 px-4 font-semibold border border-blue-600 text-base rounded-b-2xl rounded-t-2xl">
                   Use camera
                 </button>
+                <form>
                 <input
                   type="file"
                   id="photo"
@@ -156,9 +188,10 @@ function UserCard({ showUserCard }) {
                 >
                   Upload photo
                 </label>
+                </form>
               </div>
             </footer>
-          </div>{" "}
+          </div>
         </div>
       )}
       {cropmodal && (
@@ -195,6 +228,7 @@ function UserCard({ showUserCard }) {
               >
                 Change photo
               </label>
+              <form onSubmit={handlePhotoSubmit}>
               <button
                 type="button"
                 className="hover:bg-blue-900 bg-blue-600 py-1.5 px-4 rounded-b-2xl rounded-t-2xl text-white font-semibold"
@@ -202,6 +236,7 @@ function UserCard({ showUserCard }) {
               >
                 Save photo
               </button>
+              </form>
             </footer>
           </div>
         </div>

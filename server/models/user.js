@@ -2,15 +2,12 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const validator = require('validator');
 
+
 const userSchema = new mongoose.Schema({
-  firstName: {
+  userName: {
     type: String,
     required: true,
     trim: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
   },
   email: {
     type: String,
@@ -40,27 +37,32 @@ const userSchema = new mongoose.Schema({
     minlength:6,
     trim: true
   },
-});
-
-//hashing password
-userSchema.pre("save", async function (next) {
-  try {
-    const password = this.password;
-    const hashedPassword = await bcrypt.hash(password, 8);
-    this.password = hashedPassword;
-
-    next();
-  } catch (error) {
-    next(error);
+  profilePicPath : {
+    type : String
   }
 });
 
-//user authentication
+//hashing password
+userSchema.statics.hashing = async function (user) {
+  try {
+    const password = user.password;
+    const hashedPassword = await bcrypt.hash(password, 8);
+    user.password = hashedPassword;
+    return 
+  } catch (error) {
+    return(error);
+  }
+};
 
+//user
+
+
+//user authentication
 userSchema.statics.authenticate = async function (email,password) {
     const user = await this.findOne({email})
     if (user){
-        const auth = await bcrypt.compare(password,user.password)
+      const hp = await bcrypt.hash(password,8);
+      const auth = await bcrypt.compare(password,user.password)
         if(auth){
             return user;
         }
@@ -68,6 +70,18 @@ userSchema.statics.authenticate = async function (email,password) {
     }
     throw Error('Incorrect Email');
 }
+
+
+//public profile
+
+userSchema.statics.publicUser = function(data,token) {
+  const user = this.findOne(data.email)
+  Object.assign(user,{"token" : token})
+  const userObj = data.toObject()
+  delete userObj.password;
+  return userObj;
+}
+
 
 const User = new mongoose.model("user", userSchema);
 

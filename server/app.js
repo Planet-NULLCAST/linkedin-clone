@@ -1,142 +1,118 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const User = require("./models/user");
-const jwt = require("jsonwebtoken");
-
-
+const usersRoutes = require("./routes/usersRoutes");
 const app = express();
 const dbURI = "mongodb://localhost:27017/linkedin";
+const cors = require("cors");
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
+const Post = require("./models/post");
+const multer = require("multer")
+const postsRoutes = require("./routes/postsRoutes")
+const Comment = require("./models/comments")
 
-mongoose.connect(dbURI, { useNewUrlParser: true }, { useUnifiedTopology: true })
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  })
+);
+app.use(express.static("public"));
+//connecting mongoose
+mongoose
+  .connect(dbURI, { useNewUrlParser: true }, { useUnifiedTopology: true })
   .then((result) => {
     console.log("connected");
     app.listen(8000, () => console.log("listening"));
   })
   .catch((err) => console.log(err));
 
-  app.use(express.json());
+app.use(express.json());
+app.use("/users", usersRoutes);
+app.use("/posts", postsRoutes);
 
-  //creating TOKEN
-  const createToken = (id) =>{
-    return jwt.sign({id},'secretkey')
-  }
+const multerStorageEngine = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/comment-pictures");
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.params.id + Date.now() + "--" + file.originalname);
+  },
+});
 
-  //Creating New Data in database
-  app.post("/users", (req, res) => {
-    const data = new User(req.body);
-    data.save()
-      .then(() => res.status(201).send(data))
-      .catch((error) => res.status(400).send(error));
-  });
+// multer middleware
+const upload = multer({
+  storage: multerStorageEngine,
+  limits: {
+    fileSize: 100000,
+  },
+});
 
 
-  //Fetching all datas from database
-  app.get("/users", (req, res) => {
-    const finalUser = []
-    User.find({})
-      .then((users) => {
-        users.filter((item) =>{
-        const obj = {
-          'firstName' : item.firstName,
-          'lastName' : item.lastName,
-          'email' : item.email,
-          'country' : item.country,
-          'city' : item.city,
-          '_id' : item._id
-        };
-        finalUser.push(obj)
-      })
-      res.send(finalUser)
+
+// create a comment
+app.post("/comments/:id",upload.any(),async (req,res) => {
+  try{
+    const userId =  req.params.id
+    const now = new Date()
+    const comment = await new Comment()
+    Object.assign(comment,{
+      "text" : req.body.userComment,
+      "createdAt" : now,
+      "createdById" : userId
     })
-      .catch(() => res.status(500).send())
-  });
-  
-  //fetching a single data by Id
-  app.get("/users/:id", (req, res) => {
-    const finalUser = []
-    const user = User.findById(req.params.id)
-      .then(user => {
-          const finalUser = {
-            'firstName' : user.firstName,
-            'lastName' : user.lastName,
-            'email' : user.email,
-            'country' : user.country,
-            'city' : user.city,
-            '_id' : user._id
-          };
-          res.send(finalUser);
-        })
-      .catch((e) => res.status(500).send(e));
-  });
-  
-  //updating data using PATCH
-  app.patch("/users/:id",async (req,res) => {
-    const updates = await Object.keys(req.body)
-    try{
-      const userData = await User.findById(req.params.id)
-      await updates.forEach(update => userData[update] = req.body[update])
-      await userData.save()
-      await res.send(userData)
+    if(req.files.length > 0){
+      Object.assign(comment,{"imageUrl" : `comment-pictures/${req.files[0].filename}`})
     }
-    catch(e){
-      res.status(400).send(e)
-    }
-  })
-  
-  ////updating data using PUT
-  // app.put("/users/:id",async (req,res) => {
-  //   try{
-  //     const data = await user.findByIdAndUpdate(req.params.id,req.body,{ new:true , runValidators:true})
-  //     res.send(data)
-  //   }
-  //   catch(e){
-  //     res.status(400).send(e)
-  //   }
-  // })
-  
-  
-  
-  app.put("/users/:id",(req,res) => {
-     User.findByIdAndUpdate({_id:req.params.id},{
-        $set : {
-          firstName : req.body.firstName,
-          lastName : req.body.lastName,
-          email : req.body.email,
-          country : req.body.country,
-          city : req.body.city,
-          password : req.body.password}
-        })
-        .then(()=>{
-          res.send('updated')
-        })
-        .catch(err => res.status(400).send(err))
-  })
-  
-  
-  //delete user
-  app.delete("/users/:id", async (req,res) =>{
-    try{
-      const deleteData = await User.findByIdAndDelete(req.params.id)
-      res.send(deleteData)
-    }
-    catch(e){
-      res.status(400).send(e)
-    }
-  })
-  
-  
-  //user authentication
-  
-  app.post("/login", async (req,res) =>{
-    const { email, password } = req.body;
-    
-    try{
-      const user = await User.authenticate(email,password);
-      const token = createToken(user._id);
-      res.send(token)
-    }
-    catch (err) {
-      res.status(400).send(err.message)
-    }
-  })
-  
+    await comment.save()
+    res.status(201).json({comment})
+  }
+  catch(e){
+    res.json({error : e.message})
+  }
+})
+
+//get all comments
+app.get("/comments",async (req,res) => {
+try{
+  const comments = await Comment.find({})
+  res.json({comments})
+}
+catch(e){
+  res.json({"error" : e.message})
+}})
+
+
+// const multerStorageEngine = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, "trial");
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, req.params.id + Date.now() + "--" + file.originalname);
+//   },
+// });
+
+// const trial = multer({
+//   storage: multerStorageEngine,
+//   limits: {
+//     fileSize: 100000,
+//   }
+// })
+
+// //trial
+// app.post("/comments/:id",trial.any(), async(req,res)=>{
+//   try{
+//     res.send(req.body)
+//     // console.log(req.body)
+//     if(req.files.length > 0)
+//     {
+//       console.log('yes');
+//     }
+//   }
+//   catch(e){
+//     res.send(e.message)
+//   }
+// })

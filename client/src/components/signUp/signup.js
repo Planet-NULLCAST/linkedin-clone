@@ -1,6 +1,7 @@
 import UserName from "./userName";
 import UserMail from "./userMail";
 import Footer from "./Footer";
+
 const Signup = () => {
   return (
     <div>

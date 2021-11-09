@@ -3,22 +3,46 @@ import { useSelector, useDispatch } from "react-redux";
 import { nextPage } from "../../Redux/userDetailsPage/userNamePage";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { updateMail } from "../../Redux/userDetailsPage/userMail";
+import { updatePassword } from "../../Redux/userDetailsPage/userPassword";
+import { isEmail } from "validator"
 
 function UserMail() {
   const userNamePage = useSelector((state) => state.userNamePage.value);
   const [state, setstate] = useState("block");
+  const [emailWarning,setEmailWarning] = useState(false)
+  const [passswordWarning, setPassswordWarning] = useState(false)
+  const email = useSelector(state => state.userMail.value)
+  const password = useSelector(state => state.userPassword.value)
   const dispatch = useDispatch();
-  const handleSubmit = () => {
-    dispatch(nextPage("block"));
-    setstate("hidden");
-    console.log(userNamePage);
-  };
-  const handleFormSubmit = (e) => {
+
+  const handleNameSubmit = (e) => {
     e.preventDefault();
+    if(!emailWarning && !passswordWarning){
+      dispatch(nextPage("block"));
+      setstate("hidden");
+    }
   };
+
+  const handleButtonClick = () => {
+    if(!isEmail(email)){
+      setEmailWarning(true)      
+    }
+    else{
+      setEmailWarning(false)
+    }
+    if(password.length<6){
+      setPassswordWarning(true)
+    }
+    else{
+      setPassswordWarning(false)
+    }
+  }
+  const handleEmailChange = (e) => dispatch(updateMail(e.target.value))
+  const handlePasswordChange = (e) => dispatch(updatePassword(e.target.value))
   return (
     <div className={`${state}`}>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleNameSubmit}>
         <label className="text-black opacity-80">Email or phone number</label>
         <div className=" mb-4 p">
           <input
@@ -26,7 +50,11 @@ function UserMail() {
             id="Email"
             type="text"
             placeholder=""
+            name="email"
+            value={email}
+            onChange={handleEmailChange}
           ></input>
+          {emailWarning && <small className='text-red-600'>Please enter your email address</small>}
         </div>
         <div className="my-2 flex-col flex">
           <label className="text-black opacity-80">
@@ -34,10 +62,14 @@ function UserMail() {
           </label>
           <input
             className="shadow appearance-none border w-full rounded  p-0.5 text-grey-darker border-black"
-            id="Email"
-            type="text"
+            id="password"
+            type="password"
             placeholder=""
+            value={password}
+            name="password"
+            onChange={handlePasswordChange}
           ></input>
+          {passswordWarning && <small className='text-red-600'>Please enter a valid password</small>}
           <div className="flex text-center justify-center text-xs my-4">
             <span className="opacity-70">
               By clicking Agree & Join, you agree to the LinkedIn
@@ -60,7 +92,7 @@ function UserMail() {
         </div>
         <button
           className="bg-blue-500  text-white bold w-full h-12 rounded-full"
-          onClick={handleSubmit}
+          onClick={handleButtonClick}
         >
           Agree & Join
         </button>
