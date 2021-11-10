@@ -267,7 +267,7 @@ const Navbar = () => {
             </ul>
           </div>
           {workPopup ? (
-            <div className="absolute  -left-0  flex justify-end  w-full bg-black bg-opacity-40">
+            <div className="absolute  -left-0  flex justify-end w-full bg-black bg-opacity-40">
               <div className="w-96 rounded-l-2xl mt-px shadow-lg justify-start pb-4 items-center bg-white z-50 flex flex-col ">
                 <div className="pr-6  w-full py-2.5 flex justify-end">
                   <button onClick={workPopupFuntion} className="opacity-70">

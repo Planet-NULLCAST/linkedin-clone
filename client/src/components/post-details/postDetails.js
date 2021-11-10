@@ -24,13 +24,12 @@ import { HiLightBulb } from "react-icons/hi";
 import { LoginContext } from "../../contexts/LoginContext";
 import { SERVER_URL } from "../../config";
 
-function PostDetails(post) {
-  const  {_id,createdById,text} =post
-  const imageUrl = `${SERVER_URL}${post.imageUrl}`
+function PostDetails({_id,createdById,text,imageUrl,comments,...rest}) {
+//  console.log(createdById,comments)
+  const postImage = `${SERVER_URL}${imageUrl}`
   console.log(_id);
   const [dropdown, setDropdown] = useState(false);
   const [image, setImage] = useState("./Assets/nullcast.jpg");
-  const [content, setContent] = useState("sample text");
   const [reactions, setReactions] = useState(false);
   const [like, setLike] = useState(true);
   const [clickedReaction, setClickedReaction] = useState(
@@ -43,23 +42,22 @@ function PostDetails(post) {
   );
   const [commentBox, setCommentBox] = useState(false);
   const [comment, setComment] = useState("");
-  const [commentList, setCommentList] = useState([{ text: "", image: "" }]);
-  const [postComment, setPostComment] = useState(false);
+  const [commentList, setCommentList] = useState([{ text: ""}]);
+  const [postComment, setPostComment] = useState(true);
   const [messagePopup, setMessagePopup] = useState(false);
-  const [commentimage, setCommentImage] = useState("");
+  const [commentImageUrl, setCommentImageUrl] = useState("");
   const [commentCount, setCommentCount] = useState(0);
   const { profilePicUrl, city, country, userName, id} =
     useContext(LoginContext);
   const token = localStorage.getItem("token");
-  const [clearIt,setClearIt] = useState('')
+  const [imageValue,setImageValue] = useState('')
+  const [file,setFile] = useState("")
+  const [count,setCount] = useState(0)
   
-
-  
-
-
   const onHandleLike = () => {
     setLike(!like);
     if (like) {
+      setCount(count + 1)
       setClickedReaction(<MdThumbUp className="text-blue-700 h-8 w-8" />);
       setCurrentReaction(
         <span className="hidden xs:block font-semibold text-base leading-7 pl-2 text-blue-700">
@@ -67,11 +65,14 @@ function PostDetails(post) {
         </span>
       );
     } else {
+      setCount(count - 1)
       setClickedReaction(<MdThumbUp className="text-gray-700 h-8 w-8" />);
       setCurrentReaction(
         <span className="hidden xs:block font-semibold text-base leading-7 pl-2 text-gray-700">
           Like
         </span>
+
+
       );
     }
   };
@@ -131,37 +132,68 @@ function PostDetails(post) {
       </span>
     );
   };
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    setComment("");
-    setClearIt("")
-    setImage("");
-  };
+  // const handleFormSubmit = async (e) => {
+    
+  // };
   const handleCommentChange = (e) => {
     setPostComment(true);
     setComment(e.target.value);
   };
-  const handleCommentSubmit = async () => {
-    console.log(_id);
-    const res = await fetch(`${SERVER_URL}/comments/${id}`, {
-        method: "POST",
-        body: new FormData(document.getElementById("commentForm")),
-        headers: {
-          "Authorization": "Bearer" + " " + token,
-          // "Content-Type":" multipart/form-data"
-        },
-      });
-      const json = await res.json();
-      console.log(json);
+  const [name,setName] = useState("")
 
-    setCommentList([...commentList, { text: comment, imageUrl }]);
+
+  // const handleCommentImage = async (e) => {
+  //   console.log(e.target,"file------------>");
+  //   console.log(e.target.files,"filesss------------>");
+  //   setImageValue(e.target.value)
+  //   setFile(e.target.files[0])
+  //   setCommentImageUrl(URL.createObjectURL(e.target.files[0]));
+  //   setName(e.target.files[0].name)
+  //   // setPostComment(true);
+  // };
+  
+
+
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+
+    //formdata
+
+    const formData = new FormData()
+    formData.append("commentText",e.target[0].value)
+    formData.append("postId",_id)
+    console.log(e.target[1].files);
+    if(file){
+      formData.append("commentImage",file,name)
+      console.log("file added");
+  
+    }
+    
+    // console.log(_id);
+    console.log(formData.get("commentImage"))
+
+    // setCommentList([...commentList, { text: comment, imageUrl: commentImageUrl}]);
     setCommentCount(commentList.length);
+    //api call
+    const res = await fetch(`${SERVER_URL}/comments/${id}`, {
+      method: "POST",
+      body: formData,
+      headers: {
+        "Authorization": "Bearer" + " " + token,
+        // "Content-Type":" multipart/form-data"
+      },
+    });
+    const json = await res.json();
+    console.log(json);
+
+    
+
+    
+    setComment("");
+    setCommentImageUrl("");
+    setImageValue('')
   };
-  const handleCommentImage = async (e) => {
-    setClearIt(e.target.value)
-    setCommentImage(URL.createObjectURL(e.target.files[0]));
-    setPostComment(true);
-  };
+  
 
   
   return (
@@ -241,7 +273,7 @@ function PostDetails(post) {
         <div className="px-4 pt-3 mb-2">
           <div className="flex">
             <img
-              src={createdById?.profilePicPath}
+              src={`${SERVER_URL}${createdById?.profilePicPath}` || `${profilePicUrl}`}
               alt="profile pic"
               className="cursor-pointer h-12 w-12 rounded-full"
             />
@@ -267,7 +299,7 @@ function PostDetails(post) {
         <div className="mb-2">
           <p className="px-4">{text}</p>
           <article className="mt-2">
-            <img src={imageUrl} alt="" />
+            <img src={postImage} alt="" />
           </article>
         </div>
         <div className="flex justify-start">
@@ -316,6 +348,7 @@ function PostDetails(post) {
             onMouseEnter={() => setReactions(true)}
             onClick={onHandleLike}
           >
+            {count}
             {clickedReaction}
             {currentReaction}
           </div>
@@ -354,7 +387,7 @@ function PostDetails(post) {
             <form
               id="commentForm"
               className="relative w-full"
-              onSubmit={handleFormSubmit}
+              onSubmit={handleCommentSubmit}
             >
               <div className="pl-3 border border-primary rounded-full w-full">
                 <textarea
@@ -369,9 +402,9 @@ function PostDetails(post) {
                   type="file"
                   className="hidden"
                   id="commentImage"
-                  onChange={handleCommentImage}
+                  // onChange={handleCommentImage}
                   name="commentPic"
-                  value={clearIt}
+              
                 />
                 <label for="commentImage">
                   <BsImageFill className="absolute text-gray-700 right-5 top-3 cursor-pointer" />
@@ -379,7 +412,7 @@ function PostDetails(post) {
               </div>
               {postComment && (
                 <button
-                  onClick={handleCommentSubmit}
+                  type="submit"
                   className="mt-3 text-sm bg-blue-700 py-1 px-3 rounded-b-2xl rounded-t-2xl text-white font-semibold"
                 >
                   Post
@@ -389,7 +422,7 @@ function PostDetails(post) {
           </div>
         )}
         <div className="my-3">
-          {commentList.map((comment) => (
+          {comments.map((comment) => (
             <section className="my-3">
               <div className="flex px-4">
                 <img
@@ -399,14 +432,14 @@ function PostDetails(post) {
                 />
                 <div className="bg-commentBg w-full px-3 rounded-lg">
                   <h2 className="text-xs text-sec opacity-90 font-semibold">
-                    {userName}
+                    {comment.createdById.userName}
                   </h2>
                   <p className="text-xs text-sec opacity-60 font-normal">
                     {city} {country}
                   </p>
                   <div className="my-1 w-full break-words h-auto">
                     <p>{comment.text}</p>
-                    <img src={comment.image} alt="" />
+                    {/* <img src={`${SERVER_URL}/${comment.imageUrl}`} alt="" /> */}
                   </div>
                 </div>
               </div>

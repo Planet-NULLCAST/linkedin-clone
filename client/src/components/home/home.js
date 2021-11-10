@@ -33,15 +33,13 @@ const Home = () => {
       .then((res) => res.json())
       .then((json) => {
         setPostList(json);
-        console.log(postList);
       });
+      console.log(postList);
+
   };
 
   useEffect(async () => {
-    if (!token) {
-      return <Redirect to="/signin" />;
-    }
-
+    if (token) {
     const response = await fetch(`${SERVER_URL}/users/me`, {
       method: "GET",
       headers: {
@@ -61,6 +59,7 @@ const Home = () => {
       }
     }
     getAllPosts();
+  }
   }, []);
 
   // const fetchUser = async (userId) => {
@@ -75,7 +74,9 @@ const Home = () => {
   //   setAuthorCity(json.city)
   //   setAuthorCountry(json.country)
   // }
-
+  if (!token) {
+    return <Redirect to="/signin" />;
+  }
   return (
     <div>
       <div className="md:flex hidden flex-col">
@@ -105,7 +106,7 @@ const Home = () => {
                     {postList.map((post, index) => {
                       return (
                         <li key={index}>
-                          <PostDetails post={post} />
+                          <PostDetails {...post} />
                         </li>
                       );
                     })}
